@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.querySelector('#reset');
     const announcer = document.querySelector('.announcer');
 
-    let gameBoard = ['', '','','','','','','',''];
+    let gameBoard = [];
     let currentPlayer = 'x';
     let isGameActive = true;
 
@@ -28,31 +28,18 @@ function checkForWinner(){
         let check = combination.every(idx => tiles[idx].innerText.trim() == currentPlayer)
         if(check){
             highlightTiles(combination)
+            announce(currentPlayer === 'x' ? PLAYERX_WON : PLAYERO_WON);
             isGameActive = false;
         }
     })
-    return;
-}
-
-// if (checkForWinner()) {
-//     announce(currentPlayer === 'x' ? PLAYERX_WON : PLAYERO_WON);
-//     return;
-// }
-
-if (!gameBoard.includes('')) {
-    announce(TIE);
-}
-
-const isValidAction = (tile) => {
-    if (tile.innerText === 'x' || tile.innerText === 'o'){
-        return false;
+    if (gameBoard.length>8) {
+        announce(TIE);
     }
-
-    return true;
 }
+
 
 const resetGameBoard = () => {
-    gameBoard = ['', '','','','','','','',''];
+    gameBoard = [];
     isGameActive = true;
     announcer.classList.add('hide');
     currentPlayer = 'x';
@@ -76,10 +63,6 @@ const resetGameBoard = () => {
     // })
 }
 
-const updateGameBoard = (index) => {
-    gameBoard[index] = currentPlayer;
-}
-
 function highlightTiles(combination){
     combination.forEach(function(idx){
         tiles[idx].classList.add('highlight')
@@ -91,7 +74,11 @@ tiles.forEach(function(tile){
         if(tile.innerText.trim() != "") return
         if(!isGameActive) return
         tile.innerText = currentPlayer
+        let otherPlayer = currentPlayer === "x" ? "o" : "x"
+        announcer.innerHTML = 'Player ' + otherPlayer + ' is up next';
+        gameBoard.push(true)
         checkForWinner()
+       
         currentPlayer = currentPlayer == "x" ? "o" : "x"
     })
 })
@@ -99,10 +86,10 @@ tiles.forEach(function(tile){
 const announce = (type) => {
     switch(type){
         case PLAYERO_WON:
-            announcer.innerHTML = 'Player <span class=playero">o</span> Won';
+            announcer.innerHTML = 'Player <span class=playero">O</span> Won';
             break;
         case PLAYERX_WON:
-            annoucer.innerHTML = 'Player <span class="playerx">x</span> Won';
+            announcer.innerHTML = 'Player <span class="playerx">X</span> Won';
             break;
         case TIE:
             announcer.innerText = 'Tie';
@@ -114,7 +101,9 @@ resetButton.addEventListener('click', resetGameBoard);
 });
 
 
-// reset button needs to add back the event listeners 
+// Display a message to indicate which turn is about to be played.
+// Detect draw conditions (ties/cat's game)
+
 
 
 // console.log("hello")
