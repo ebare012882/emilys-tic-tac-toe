@@ -1,8 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
     const tiles = Array.from(document.querySelectorAll('.tile'));
-    const playerDisplay = document.querySelector('display-player');
     const resetButton = document.querySelector('#reset');
-    const announcer = document.querySelector('anouncer');
+    const announcer = document.querySelector('.announcer');
 
     let gameBoard = ['', '','','','','','','',''];
     let currentPlayer = 'x';
@@ -11,9 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
 const PLAYERX_WON = "PLAYERX_WON";
 const PLAYERO_WON = "PLAYERO_WON";
 const TIE = "TIE";
-
-
-let gameOver = false;
 
  
 let winningCombinations = [
@@ -32,18 +28,19 @@ function checkForWinner(){
         let check = combination.every(idx => tiles[idx].innerText.trim() == currentPlayer)
         if(check){
             highlightTiles(combination)
+            isGameActive = false;
         }
     })
-}
-
-if (roundWon) {
-    announce(currentPlayer === 'x' ? PLAYX_WON : PLAYERO_WON);
-    isGameActive = false;
     return;
 }
 
+// if (checkForWinner()) {
+//     announce(currentPlayer === 'x' ? PLAYERX_WON : PLAYERO_WON);
+//     return;
+// }
+
 if (!gameBoard.includes('')) {
-    anounce(TIE);
+    announce(TIE);
 }
 
 const isValidAction = (tile) => {
@@ -57,17 +54,26 @@ const isValidAction = (tile) => {
 const resetGameBoard = () => {
     gameBoard = ['', '','','','','','','',''];
     isGameActive = true;
-    annoucer.classList.add('hide');
-
-    if (currentPlayer === 'o') {
-        changePlayer();
-    }
+    announcer.classList.add('hide');
+    currentPlayer = 'x';
+    // if (currentPlayer === 'o') {
+    //     changePlayer();
+    // }
 
     tiles.forEach(tile => {
         tile.innerText = '';
         tile.classList.remove('playerx');
         tile.classList.remove('playero');
+        tile.classList.remove('highlight');
     });
+    // tiles.forEach(function(tile){
+    //     tile.addEventListener('click', function(){
+    //         if(tile.innerText.trim() != "") return
+    //         tile.innerText = currentPlayer
+    //         checkForWinner()
+    //         currentPlayer = currentPlayer == "x" ? "o" : "x"
+    //     })
+    // })
 }
 
 const updateGameBoard = (index) => {
@@ -83,6 +89,7 @@ function highlightTiles(combination){
 tiles.forEach(function(tile){
     tile.addEventListener('click', function(){
         if(tile.innerText.trim() != "") return
+        if(!isGameActive) return
         tile.innerText = currentPlayer
         checkForWinner()
         currentPlayer = currentPlayer == "x" ? "o" : "x"
@@ -100,13 +107,14 @@ const announce = (type) => {
         case TIE:
             announcer.innerText = 'Tie';
     }
-    anouncer.classList.remove('hide';)
+    announcer.classList.remove('hide');
 };
 
-resetButton.addEventListener('click', resetBoard);
+resetButton.addEventListener('click', resetGameBoard);
 });
 
 
+// reset button needs to add back the event listeners 
 
 
 // console.log("hello")
