@@ -1,0 +1,95 @@
+1. cd sei_monster_mash 
+2. sei_monster_mash % ls
+3. cd deliverables
+4. mkdir hw1-unix-commands
+5. mkdir star_wars
+6. cd star_wars
+7. mkdir commands.txt
+8. code commands.txt
+9. mkdir death_star
+10. cd death_star
+11. mkdir darth_vader.txt
+12. ls
+13. mkdir princess_leia.txt storm_trooper.txt
+14. ls
+15. cd .. (which took me back to star_wars)
+16. mkdir galaxy_far_far_away
+17. ls
+18. mkdir tatooine
+19. ls
+20. cd tatooine
+21. mkdir luke.txt ben_kenobi.txt
+22. ls
+23. mkdir millenium_falcon
+24. ls
+25. cd millenium_falcon
+26. mkdir han_solo.txt chewbaca.txt
+27. ls
+28. cd galaxy_far_far_away
+29. mv galaxy_far_far_away/ben_kenobi.txt galaxy_far_far_away/obi_wan.txt
+this is where I realized that I needed to have used "touch" instead of "mkdir" for everything.
+30. cd sei_monster_mash
+31. cd deliverables
+32. ls
+33. cd star_wars 
+34. touch commands.txt
+35. ls
+36. cd death_star
+37. ls
+It showed me the following at this point: darth_vader.txt		princess_leia.txt	storm_trooper.txt   but because I'm paranoid, I'm going to use touch to remake them next.
+38. touch darth_vadar.txt princess_leia.txt storm_trooper.txt
+39. ls
+40. cd galaxy_far_far_away
+41. touch luke.txt ben_kenobi.txt
+42. ls
+43. cd millenium_falcon
+44. touch han_solo.txt chewbaca.txt
+45. ls
+46. mv galaxy_far_far_away/ben_kenobi.txt galaxy_far_far_away/obi_wan.txt (this didn't work)
+47. cd galaxy_far_far_away
+48. mv ben_kenobi.txt obi_wan.txt
+49. ls
+50. cp -p ~/death_star/storm_trooper.txt /tatooine/storm_trooper.txt (this didn't work)
+51. cd star_wars
+52. mkdir millenium_falcon
+53. ls
+54. mv galaxy_far_far_away/obi_wan.txt millenium_falcon/obi_wan.txt
+55. cd millenium_falcon
+56. ls (to check work again)
+57. mv galaxy_far_far_away/luke.txt millenium_falcon/luke.txt
+58. mv tatooine/millenium_falcon galaxy_far_far_away/millenium_falcon
+59. mv galaxy_far_far_away/millenium_falcon death_star/millenium_falcon
+60. mv death_star/princess_leia.txt millenium_falcon/princess_leia.txt
+61. cd millenium_falcon
+62. rm obi_wan.txt
+63. ls (to check...and it's good!)
+64. cd galaxy_far_far_away
+65. mkdir yavin_4
+66. cd death_star
+67. mv millenium_falcon yavin_4
+68. mkdir x_wing
+69. ls (it's good)
+70. mv millenium_falcon/princess_leia.txt yavin_4/princess_leia.txt (didn't work. Why?)
+
+71. mkdir tie_fighter_1 tie_fighter_2 tie_fighter_3
+72. ls (it's good)
+73. mv death_star/darth_vadar.txt tie_fighter_1/darth_vadar.txt (didn't work)
+74. cp storm_trooper.txt/tie_fighter_2
+75. cp storm_trooper.txt/tie_fighter_3 (I don't think this or the one before worked)
+76. mv death_star/tie_fighter_1 galaxy_far_far_away/tie_fighter_1 (didn't work)
+77. mv death_star/tie_fighter_2 galaxy_far_far_away/tie_fighter_2 (didn't work)
+78. mv death_star/tie_fighter_3 galaxy_far_far_away/tie_fighter_3 (didn't work)
+79. rm tie_fighter_2
+80. rm tie_fighter_3
+81. cd x_wing
+82. touch the_force.txt
+83. rm death_star (didn't work)
+84. mv star_wars/x_wing yavin_4/x_wing (didn't work)
+85. mv star_wars/millenium_falcon yavin_4/millenium_falcon (didn't work)
+
+
+
+
+
+
+
