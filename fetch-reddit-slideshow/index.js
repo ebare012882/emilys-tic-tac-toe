@@ -21,6 +21,7 @@ const form = document.querySelector('#form')
 const stopBtn = document.querySelector('#stop')
 const textBox = document.querySelector('#text-box')
 const info = document.querySelector('.info')
+const action = document.querySelector('.action')
 
 let after = ''
 
@@ -42,6 +43,7 @@ let after = ''
 
 const onSlideShow = () => {
     info.style.display = 'none'
+    action.style.display = 'block'
     // const slideShowSpot = document.createElement('div')
     // slideShowSpot.classList.add('container')
     // slideShowSpot.innerHTML = `
@@ -49,11 +51,29 @@ const onSlideShow = () => {
     // `
 }
 
+const offSlideShow = () => {
+    info.style.display = 'block'
+    action.style.display = 'none'
+}
+
 const showSlides = (event) => {
     const redditUrl = event.target.getAttribute('data-url')
     fetch(redditUrl)
     .then(res => res.json())
     .catch(console.error)
+}
+
+let intervalId;
+
+function startSlideShow(arr, index) {
+   intervalId = setInterval(function() {
+        placePic(arr[index++ % arr.length]);
+    }, 1000);  
+    // intervalId = setInterval(placePic, 500, urls);
+}
+
+function stopSlideShow () {
+    clearInterval(intervalId);
 }
 
 form.addEventListener('submit', event => {
@@ -65,6 +85,7 @@ form.addEventListener('submit', event => {
     // can access inputs with their 'ids'
     const submit = textBox.value
     console.log(textBox.value)
+    
     // I don't think "submit" should be the thing in the line above so I changed it to "textBox"
     
     fetch(`http://www.reddit.com/search.json?q=${submit}+nsfw:no`)
@@ -73,24 +94,24 @@ form.addEventListener('submit', event => {
     .then(response => {
         let urls = response.data.children.map(obj => {
             return obj.data.url
+        }).filter(url => {
+            let arr = url.split('.')
+            if(arr[arr.length - 1] === 'jpg') {
+                return true
+            }
+            return false
         })
-    onSlideShow()
+    startSlideShow(urls, 0)
+    // placePic()
     // showSlides()
         console.log(urls)
+    // setTimeout(stopSlideShow, 4000)
     })
     .catch(console.error)
+    onSlideShow()
 })
 
 // below is where I tried to start and stop the slideshow but it didn't work
-let intervalId;
-
-function startSlideShow() {
-    intervalId = setInterval(changeImage, 500);
-}
-
-function stopSlideShow () {
-    clearInterval(intervalId);
-}
 
 function changeImage() {
     let imageSrc = document.getElementById('image').getAttribute('src');
@@ -101,10 +122,19 @@ function changeImage() {
     document.getElementById('image').setAttribute('src', newImage);
 }
 
+function placePic (url) {
+    console.log(url)
+    let catPic = `<img src= ${url}></img>`
+    slideShow.innerHTML= catPic
+}
+
+
 // I want the slideshow to stop when the user clicks the stop button
-// stopBtn.addEventListener('click', () => {
-//     container.style.display = 'none'
-// })
+stopBtn.addEventListener('click', () => {
+    container.style.display = 'none'
+    stopSlideShow()
+    offSlideShow()
+})
 
 // Just for some help in the right direction if you go to this url and search the page for the thumbnail key you will find a https link at one of them. That is the link you want to use in your src in your img tag
 
